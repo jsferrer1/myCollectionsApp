@@ -1,0 +1,28 @@
+{
+  "name": "myCollectionsApp",
+  "version": "1.0.0",
+  "description": "Website for your collections",
+  "moduleType": [],
+  "keywords": [
+    "collections",
+    "cash"
+  ],
+  "authors": [
+    "Jerry F."
+  ],
+  "license": "MIT",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular-facebook": "^0.2.3"
+  },
+  "resolutions": {
+    "angular": "~1.5.5"
+  }
+}

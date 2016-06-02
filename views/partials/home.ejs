@@ -1,0 +1,42 @@
+
+    <div class="container">
+
+        <div class="row">
+            <div class="col-xs-12">
+               <h3>Collections on Sale!</h3>
+               <hr>
+            </div>
+        </div>
+
+        <ul class="media-list">
+        <li class="media" ng-repeat="collection in collections | filter:filtText">
+            <div class="row">
+                <div class="col-xs-12 col-sm-3 col-sm-push-9">
+                    <p style="padding:20px;"></p>
+                    <h3 align=center>On Sale!</h3>
+                </div>
+                <div class="col-xs-12 col-sm-9 col-sm-pull-3">
+                    <div ng-if="!showCollection">
+                        <h3>{{message}}</h3>
+                    </div>                
+                    <div class="media" ng-if="showCollection">
+                        <div class="media-left media-middle">
+                            <a ui-sref="app.collectiondetails({id: collection._id})">
+                            <img class="media-object img-thumbnail"
+                             ng-src={{collection.image}} alt="{{collection.name}}">
+                            </a>
+                        </div>
+                        <div class="media-body">
+                            <h2 class="media-heading">{{collection.name}}  
+                                <span class="label label-danger">{{collection.label}}</span> 
+                                <span class="badge">{{collection.price/100 | currency}}</span>
+                            </h2>
+                            <p>{{collection.description}}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </li>
+        </ul>
+
+    </div>

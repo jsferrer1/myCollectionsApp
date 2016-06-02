@@ -1,0 +1,216 @@
+
+    <div class="container">
+
+        <div class="row">
+            <div class="col-xs-12">
+               <ul class="breadcrumb">
+                   <li><a href="#">Home</a></li>
+                   <li class="active">Collections</li>
+               </ul>
+            </div>
+            <div class="col-xs-12">
+                <h3>Lists of Collections</h3>
+                <hr>
+            </div>
+        </div>
+
+        <div class="row row-content" ng-controller="CollectionController"> 
+            <div class="col-xs-12" ng-if="!showCollection">
+                <h3>{{message}}</h3>
+            </div>                   
+            <div class="col-xs-12" ng-if="showCollection">
+
+
+                <div class="tab-content">
+
+                   <ul class="media-list tab-pane fade in active">
+                      <ul class="nav nav-tabs nav-justified" role="tablist">
+                          <li role="presentation"
+                           ng-class="{active:isSelected(1)}">
+                          <a ng-click="select(1)"
+                           aria-controls="all collections"
+                           role="tab">All Collections</a></li>
+                          <li role="presentation"
+                           ng-class="{active:isSelected(2)}">
+                          <a ng-click="select(2)"
+                           aria-controls="electronics"
+                           role="tab">Electronics</a></li>
+                          <li role="presentation"
+                           ng-class="{active:isSelected(3)}">
+                          <a ng-click="select(3)"
+                           aria-controls="automobile"
+                           role="tab">Automobile</a></li>
+                          <li role="presentation"
+                           ng-class="{active:isSelected(4)}">
+                          <a ng-click="select(4)"
+                           aria-controls="home"
+                           role="tab">Home</a></li>
+                          <li role="presentation"
+                           ng-class="{active:isSelected(5)}">
+                          <a ng-click="select(5)"
+                           aria-controls="others"
+                           role="tab">Others</a></li>
+                          <li>
+                          <span>&nbsp;<input type="text" ng-model="filtText">&nbsp;<i class="fa fa-search"></i></span>
+                          </li>
+                          <li>
+                          <button ui-sref="app.newcollection" class="btn btn-xs btn-primary pull-right"
+                              type="button">
+                              New Collection
+                          </button>
+                          </li>
+                          <li>
+                          <button ng-click="toggleDetails()" class="btn btn-xs btn-primary pull-right"
+                              type="button">
+                              {{showDetails ? 'Hide Details':'Show Details'}}
+                          </button>
+                          </li>
+                      </ul>
+                   </ul>
+
+                  <ul class="media-list">
+                  <li class="media" ng-repeat="collection in collections | filter:{name:filtText, category:filtCategory}">
+                      <div class="row">
+                          <div class="col-xs-2">
+                          <a ui-sref="app.collectiondetails({id: collection._id})">
+                          <img class="media-object img-thumbnail"
+                           ng-src={{collection.image}} alt="{{collection.name}}">
+                          </a>
+                          </div>
+                          <div class="col-xs-7">
+                              <h2 class="media-heading">{{collection.name}}
+                               <span class="label label-danger">{{collection.label}}</span>
+                               <span class="badge">{{collection.price/100 | currency}}</span></h2>
+                              <p ng-show="showDetails">
+                                <span class="label label-default">Category</span>
+                                <span class="label label-info">{{collection.category}}</span>
+
+                                <span class="label label-default">Location</span>
+                                <span class="label label-info">{{collection.location}}</span>
+
+                                <span class="label label-default">Status</span>
+                                <span class="label label-info">{{collection.status}}</span>
+
+                                <span class="label label-default">Org</span>
+                                <span class="label label-info">{{collection.org}}</span>
+
+                                <span class="label label-default">Description</span>
+                                <span class="label label-info">{{collection.description}}</span>
+                              </p>
+                          </div>
+                          <div class="col-xs-3">
+                            <div class="nav navbar-nav navbar-right" style="padding: 40px 10px;">
+                            <a class="btn btn-md btn-default" ui-sref="app.editcollection({id: collection._id})"><i class="fa fa-pencil-square-o"></i></a>
+                            <a class="btn btn-md btn-default" data-toggle="modal" data-target="#dlgConfirmDelete" ng-click="setCollection(collection)"><i class="fa fa-trash-o"></i></a>
+                            <a class="btn btn-md btn-default" ng-hide="collection.status == 'Sale'" data-toggle="modal" data-target="#dlgConfirmDonate" ng-click="setCollection(collection)"><i class="fa fa-gift"></i></a>
+                            <a class="btn btn-md btn-default btn-social-icon" data-toggle="modal" data-target="#dlgConfirmPost" ng-click="setCollection(collection)"><i class="fa fa-facebook-f"></i></a>
+                            <a class="btn btn-md btn-default" ng-hide="collection.status == 'Sale' || collection.status == 'Donate'" data-toggle="modal" data-target="#dlgConfirmSell" ng-click="setCollection(collection)"><i class="fa fa-dollar"></i></a>
+                            </div>
+                          </div>
+                      </div>
+
+                  </li>
+                  </ul>
+                </div>
+
+            </div>
+
+            <!-- confirm delete  -->
+
+            <div class="modal fade" id="dlgConfirmDelete" role="dialog" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title">Delete Record </h4>
+                        </div>
+                        <div class="modal-body">
+                            <p>Please confirm to delete collection: {{curCollection.name}}</p>
+                        </div>
+                        <div class="modal-footer">
+                            <a class="btn btn-danger btn-ok" ng-click="deleteCollection(curCollection._id)">Delete</a>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+            </div>    
+
+            <!-- confirm to sell -->
+
+            <div class="modal fade" id="dlgConfirmSell" role="dialog" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title">Sell Record </h4>
+                        </div>
+                        <div class="modal-body">
+                            <p>Please confirm to sell collection: {{curCollection.name}}</p>
+                        </div>
+                        <div class="modal-footer">
+                            <a class="btn btn-danger btn-ok" ng-click="sellCollection(curCollection._id)">Sell</a>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+            </div>    
+
+            <!-- confirm to donate -->
+
+            <div class="modal fade" id="dlgConfirmDonate" role="dialog" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title">Donate Record </h4>
+                        </div>
+                        <div class="modal-body">
+                            <p>Please confirm to donate collection: {{curCollection.name}}</p>
+
+                            <form class="form-horizontal" role="form" name="donateForm" novalidate>
+
+                              <div class="form-group">
+                                  <label for="label" class="col-sm-2 control-label">Organization</label>
+                                  <div class="col-sm-3">
+                                      <select class="form-control" 
+                                       ng-model="curCollection.org"
+                                       ng-options="org.value as org.label for org in orgs">
+                                          <option value="">Select Org</option>
+                                      </select>
+                                  </div>
+                              </div>
+
+                            </form>  
+                        </div>
+                        <div class="modal-footer">
+                            <a class="btn btn-primary btn-ok" ng-click="donateCollection(curCollection._id)">Donate</a>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+            </div>  
+
+            <!-- confirm to post to facebook -->
+
+            <div class="modal fade" id="dlgConfirmPost" role="dialog" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title">Post Record </h4>
+                        </div>
+                        <div class="modal-body">
+                            <p>Please confirm to post collection: {{curCollection.name}}</p>
+                        </div>
+                        <div class="modal-footer">
+                            <a class="btn btn-danger btn-ok" ng-click="postToFB(curCollection)">Post</a>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+            </div>    
+
+        </div>
+    </div>
+
+

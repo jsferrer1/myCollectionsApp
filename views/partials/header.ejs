@@ -1,0 +1,60 @@
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" ui-sref="app"><img src="images/logo.png" height=30 width=41></a>
+            </div>
+            <div id="navbar" class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li ng-class="{active: stateis('app')}"><a ui-sref="app">
+                        <span class="glyphicon glyphicon-home"
+                         aria-hidden="true"></span> Home</a></li>
+                    <li ng-show="loggedIn" ng-class="{active: stateis('app.collections') || stateis('app.collections')}"><a ui-sref="app.collections">
+                         <span class="glyphicon glyphicon-list-alt"
+                         aria-hidden="true"></span> 
+                         Collections</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li ng-if="!loggedIn"><a ng-click="openLogin()">
+                    <span class="glyphicon glyphicon-log-in"></span> Login</a>
+                    </li>
+                    <li ng-if="loggedIn">
+                    <a>{{username}}</a>
+                    </li>
+                    <li ng-if="loggedIn">
+                    <a ng-click="logOut()">
+                    <span class="glyphicon glyphicon-log-in"></span> Logout</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>         
+
+    <div id="fb-root">
+    </div>
+
+    <header class="jumbotron">
+
+        <!-- Main component for a primary marketing message or call to action -->
+
+        <div class="container">
+            <div class="row row-header">
+                <div class="col-xs-12 col-sm-8">
+                    <h1>My Collections To Cash</h1>
+                    <p style="padding:40px;"></p>
+                    <p>Knowing your personal collections would enable you to sort them out! Donate it! Or sell it in facebook to receive cash!</p>
+                </div>
+                <div class="col-xs-12 col-sm-2">
+                <p style="padding:20px;"></p>
+                <img src="images/logo.png" class="img-responsive">
+                </div>
+                <div class="col-xs-12 col-sm-2">
+                </div>
+            </div>
+        </div>
+    </header>
