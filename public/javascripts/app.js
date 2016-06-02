@@ -4,7 +4,7 @@ angular.module('myCollectionsApp', ['ui.router','ngResource','ngDialog','faceboo
 .config(function(FacebookProvider) {
      // Set your appId through the setAppId method or
      // use the shortcut in the initialize method directly.
-     var appId = '1575895849393383';
+     var appId = '123123';
      FacebookProvider.init(appId);
 })
 .config(function($stateProvider, $urlRouterProvider) {
